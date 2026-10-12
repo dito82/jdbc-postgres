@@ -11,23 +11,29 @@ import entities.Product;
 public class Program {
 
 	public static void main(String[] args) throws SQLException {
-		
+
 		Connection conn = DB.getConnection();
-	
+
 		Statement st = conn.createStatement();
-			
+
 		ResultSet rs = st.executeQuery("select * from tb_product");
-			
+
 		while (rs.next()) {
-			
-			Product product = new Product();
-			product.setId(rs.getLong("id"));
-			product.setDescription(rs.getString("description"));
-			product.setName(rs.getString("name"));
-			product.setImageUri(rs.getString("image_uri"));
-			product.setPrice(rs.getDouble("price"));
-			
+
+			Product product = instantiateProduct(rs);
 			System.out.println(product);
 		}
+	}
+
+	public static Product instantiateProduct(ResultSet rs) throws SQLException {
+
+		Product product = new Product();
+		product.setId(rs.getLong("id"));
+		product.setDescription(rs.getString("description"));
+		product.setName(rs.getString("name"));
+		product.setImageUri(rs.getString("image_uri"));
+		product.setPrice(rs.getDouble("price"));
+
+		return product;
 	}
 }
